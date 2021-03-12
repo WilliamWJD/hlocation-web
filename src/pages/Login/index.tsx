@@ -1,5 +1,6 @@
 import React from 'react';
 import { MdMail, MdLock } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 import { Container, Content } from './styles';
 
@@ -25,7 +26,7 @@ const Login: React.FC = () => (
 
       <Button />
 
-      <a href="#/">Cadastre-se</a>
+      <Link to="/sign-out">Cadastre-se</Link>
     </Content>
   </Container>
 );
