@@ -1,25 +1,56 @@
-import React from 'react';
+import React, {
+  InputHTMLAttributes, useCallback, useEffect, useRef, useState,
+} from 'react';
 import { IconBaseProps } from 'react-icons/lib';
+import { useField } from '@unform/core';
 
 import { Container } from './styles';
 
-interface InputProps{
-  inputName:string;
-  placeholderText:string;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement>{
+  name:string;
   Icon?:React.ComponentType<IconBaseProps>;
 }
 
 const Input: React.FC<InputProps> = ({
-  inputName, placeholderText, Icon, ...rest
-}) => (
-  <Container>
-    {Icon && <Icon size={27} color="7F8C8D" />}
-    <input
-      name={inputName}
-      placeholder={placeholderText}
-      {...rest}
-    />
-  </Container>
-);
+  name, Icon, ...rest
+}) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
+  const {
+    fieldName, defaultValue, error, registerField,
+  } = useField(name);
+
+  const hendleInputBlur = useCallback(() => {
+    setIsFocused(false);
+
+    if (inputRef.current?.value) {
+      setIsFilled(true);
+    } else {
+      setIsFilled(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    registerField({
+      name: fieldName,
+      ref: inputRef.current,
+      path: 'value',
+    });
+  }, [fieldName, registerField]);
+
+  return (
+    <Container isFocused={isFocused} isFilled={isFilled}>
+      {Icon && <Icon size={27} />}
+      <input
+        onFocus={() => setIsFocused(true)}
+        onBlur={hendleInputBlur}
+        defaultValue={defaultValue}
+        ref={inputRef}
+        {...rest}
+      />
+    </Container>
+  );
+};
 
 export default Input;

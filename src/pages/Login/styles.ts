@@ -18,7 +18,7 @@ export const Container = styled.div`
   background-size:350px;
 `;
 
-export const Content = styled.form`
+export const Content = styled.div`
   width:422px;
   height:354px;
   background-color:#fff;
@@ -39,5 +39,9 @@ export const Content = styled.form`
     &:hover{
       color:${shade(0.2, '#7F8C8D')}
     }
+  }
+
+  form{
+    width:100%;
   }
 `;
