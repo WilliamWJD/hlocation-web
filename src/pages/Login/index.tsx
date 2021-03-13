@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import { Container, Content } from './styles';
@@ -31,6 +32,7 @@ const Login: React.FC = () => {
         abortEarly: false,
       }));
     } catch (err) {
+      toast.error('Erro ao fazer login');
       const errors = getValidationErrors(err);
       formRef.current?.setErrors(errors);
     }
