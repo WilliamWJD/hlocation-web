@@ -2,9 +2,13 @@ import React from 'react';
 
 import { Container } from './styles';
 
-const Button: React.FC = () => (
+interface ButtonProps{
+  title:string;
+}
+
+const Button: React.FC<ButtonProps> = ({ title }) => (
   <Container>
-    <strong>Entrar</strong>
+    <strong>{title}</strong>
   </Container>
 );
 

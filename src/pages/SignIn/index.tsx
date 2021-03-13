@@ -32,7 +32,7 @@ const SignIn: React.FC = () => {
         abortEarly: false,
       }));
     } catch (err) {
-      toast.error('Erro ao fazer login');
+      toast.error('Erro ao fazer login, tente novamente');
       const errors = getValidationErrors(err);
       formRef.current?.setErrors(errors);
     }
@@ -56,7 +56,9 @@ const SignIn: React.FC = () => {
             type="password"
           />
 
-          <Button />
+          <Button
+            title="Entrar"
+          />
         </Form>
 
         <Link to="/SignOut">Cadastre-se</Link>
