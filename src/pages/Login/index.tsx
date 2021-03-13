@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { MdMail, MdLock } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
+import * as Yup from 'yup';
+import getValidationErrors from '../../utils/getValidationErrors';
 
 import { Container, Content } from './styles';
 
@@ -15,15 +18,29 @@ interface FormProps{
 }
 
 const Login: React.FC = () => {
-  function handleSubmit(data: FormProps):void {
-    console.log(data);
-  }
+  const formRef = useRef<FormHandles>(null);
+
+  const handleSubmit = useCallback(async (data: FormProps) => {
+    try {
+      const schema = Yup.object().shape({
+        email: Yup.string().email('Digite um e-mail válido').required('E-mail obrigatório'),
+        password: Yup.string().min(6, 'No mínimo 6 digitos'),
+      });
+
+      await (schema.validate(data, {
+        abortEarly: false,
+      }));
+    } catch (err) {
+      const errors = getValidationErrors(err);
+      formRef.current?.setErrors(errors);
+    }
+  }, []);
 
   return (
     <Container>
       <img src={imageBackLogin} alt="logo" />
       <Content>
-        <Form onSubmit={handleSubmit}>
+        <Form ref={formRef} onSubmit={handleSubmit}>
           <Input
             name="email"
             placeholder="Digite o seu e-mail favorito"
