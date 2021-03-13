@@ -18,7 +18,7 @@ interface FormProps{
   password:string;
 }
 
-const Login: React.FC = () => {
+const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const handleSubmit = useCallback(async (data: FormProps) => {
@@ -59,10 +59,10 @@ const Login: React.FC = () => {
           <Button />
         </Form>
 
-        <Link to="/sign-out">Cadastre-se</Link>
+        <Link to="/SignOut">Cadastre-se</Link>
       </Content>
     </Container>
   );
 };
 
-export default Login;
+export default SignIn;
