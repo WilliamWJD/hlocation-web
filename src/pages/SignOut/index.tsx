@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
@@ -9,15 +9,19 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import getValidateErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 
 import { Container, Content } from './styles';
 
 interface FormProps{
-  name:string
+  name:string,
+  email:string,
+  passwod:string
 }
 
 const SignOut: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const history = useHistory();
 
   const handleSubmit = useCallback(async (data:FormProps) => {
     try {
@@ -31,11 +35,17 @@ const SignOut: React.FC = () => {
         abortEarly: false,
       });
 
+      await api.post('/users', data);
       toast.success('Usuário cadastrado com sucesso!');
+
+      history.push('/');
     } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidateErrors(err);
+        formRef.current?.setErrors(errors);
+      }
+
       toast.error('Erro ao cadastrar usuário!');
-      const errors = getValidateErrors(err);
-      formRef.current?.setErrors(errors);
     }
   }, []);
 
