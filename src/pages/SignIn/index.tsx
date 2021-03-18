@@ -9,6 +9,8 @@ import getValidationErrors from '../../utils/getValidationErrors';
 
 import { Container, Content } from './styles';
 
+import { useAuth } from '../../hooks/AuthContext';
+
 import imageBackLogin from '../../assets/backLogin.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -21,6 +23,9 @@ interface FormProps{
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
+  // eslint-disable-next-line no-shadow
+  const { signIn } = useAuth();
+
   const handleSubmit = useCallback(async (data: FormProps) => {
     try {
       const schema = Yup.object().shape({
@@ -31,12 +36,23 @@ const SignIn: React.FC = () => {
       await (schema.validate(data, {
         abortEarly: false,
       }));
+
+      await signIn({
+        email: data.email,
+        password: data.password,
+      });
+
+      toast.success('Logado com sucesso!');
     } catch (err) {
+      console.log(err);
+
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
+        formRef.current?.setErrors(errors);
+      }
       toast.error('Erro ao fazer login, tente novamente');
-      const errors = getValidationErrors(err);
-      formRef.current?.setErrors(errors);
     }
-  }, []);
+  }, [signIn]);
 
   return (
     <Container>
