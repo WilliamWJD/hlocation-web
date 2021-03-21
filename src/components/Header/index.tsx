@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { MdPermIdentity, MdInput } from 'react-icons/md';
 
+import { useAuth } from '../../hooks/AuthContext';
+
 import imgLogo from '../../assets/logo.svg';
 
 import {
@@ -10,9 +12,15 @@ import {
 const Header: React.FC = () => {
   const [boxProfile, setBoxProfile] = useState(false);
 
+  const { signOut, user } = useAuth();
+
   const handleShowBoxProfile = useCallback(() => {
     setBoxProfile(!boxProfile);
   }, [boxProfile]);
+
+  const handleSignOut = useCallback(() => {
+    signOut();
+  }, [signOut]);
 
   return (
     <Container>
@@ -28,11 +36,11 @@ const Header: React.FC = () => {
         </ul>
 
         <Profile onClick={handleShowBoxProfile}>
-          <img src="https://avatars.githubusercontent.com/u/31516475?s=460&u=e2be85f1b7be7a9cd728c0fe9fd0ad8552d9cd57&v=4" alt="william" />
+          <img src={user.avatar_url} alt="william" />
 
           <BoxOptionsProfile boxProfile={boxProfile}>
             <strong>
-              William Dias
+              {user.name}
             </strong>
 
             <span>
@@ -42,7 +50,7 @@ const Header: React.FC = () => {
               Meu perfil
             </span>
 
-            <Logoff>
+            <Logoff onClick={handleSignOut}>
               <MdInput />
               Sair
             </Logoff>

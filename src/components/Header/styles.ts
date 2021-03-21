@@ -87,6 +87,7 @@ export const BoxOptionsProfile = styled.div<BoxProfileProps>`
   strong{
     margin-bottom:5px;
     color: #34495E;
+    text-align:center;
   }
 
   span{
