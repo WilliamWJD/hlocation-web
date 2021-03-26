@@ -7,7 +7,7 @@ import TableContainer from '../../components/Table/TableContainer';
 import api from '../../services/api';
 
 import {
-  Container, Content, InputSearch, Search, ButtonSearch,
+  Container, Content, InputSearch, Search, ButtonSearch, ViewMore,
 } from './styles';
 
 interface ITenants{
@@ -78,6 +78,15 @@ const Tenants: React.FC = () => {
             ))}
           </tbody>
         </TableContainer>
+
+        <ViewMore>
+          <div>
+            <MdAdd size={25} />
+            <strong>
+              Ver Mais
+            </strong>
+          </div>
+        </ViewMore>
       </Content>
     </Container>
   );

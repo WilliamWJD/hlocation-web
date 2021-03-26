@@ -11,6 +11,9 @@ export const Content = styled.div`
   max-width:1000px;
   margin: 0 auto;
   margin-top:100px;
+
+  display:flex;
+  flex-direction:column;
 `;
 
 export const Search = styled.div`
@@ -61,5 +64,25 @@ export const ButtonSearch = styled.button`
 
   &:hover{
     background-color:${shade(0.2, '#27AE60')}
+  }
+`;
+
+export const ViewMore = styled.strong`
+  text-align:center;
+  margin-top:30px;
+  color:#fff;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  >div{
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+
+    svg{
+      margin-right:5px;
+    }
   }
 `;
