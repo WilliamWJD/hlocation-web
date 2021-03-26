@@ -1,101 +1,86 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   MdSearch, MdVisibility, MdCreate, MdDelete, MdAdd,
 } from 'react-icons/md';
 import Header from '../../components/Header';
 import TableContainer from '../../components/Table/TableContainer';
+import api from '../../services/api';
 
 import {
   Container, Content, InputSearch, Search, ButtonSearch,
 } from './styles';
 
-const Tenants: React.FC = () => (
-  <Container>
-    <Header />
+interface ITenants{
+  id:string,
+  name:string,
+  rg:string,
+  cpf:string,
+  profession:string,
+  marital_status:string,
+  phone1:string,
+}
 
-    <Content>
-      <Search>
-        <div>
-          <MdSearch size={25} color="#7F8C8D" />
-          <InputSearch placeholder="Busque pelo nome do inquilino" />
-        </div>
-        <ButtonSearch>
-          <MdAdd size={22} />
-          Novo
-        </ButtonSearch>
-      </Search>
+const Tenants: React.FC = () => {
+  const [tenants, setTenants] = useState<ITenants[]>();
 
-      <TableContainer>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>RG</th>
-            <th>CPF</th>
-            <th>Profissão</th>
-            <th>Estado civíl</th>
-            <th>Fone</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
+  useEffect(() => {
+    async function loadTenants() {
+      const response = await api.get('/tenants');
+      setTenants(response.data);
+    }
+    loadTenants();
+  }, []);
 
-        <tbody>
-          <tr>
-            <td>William José Dias</td>
-            <td>44.055.454-55</td>
-            <td>444.858.212.55</td>
-            <td>Desenvolvedor FullStack</td>
-            <td>Casado</td>
-            <td>(19)98888-8888</td>
-            <td>
-              <MdVisibility size={20} color="#2C3E50" />
-              <MdCreate size={20} color="#2980B9" />
-              <MdDelete size={20} color="#C0392B" />
-            </td>
-          </tr>
-          <tr>
-            <td>William José Dias</td>
-            <td>44.055.454-55</td>
-            <td>444.858.212.55</td>
-            <td>Desenvolvedor FullStack</td>
-            <td>Casado</td>
-            <td>(19)98888-8888</td>
-            <td>
-              <MdVisibility size={20} color="#2C3E50" />
-              <MdCreate size={20} color="#2980B9" />
-              <MdDelete size={20} color="#C0392B" />
-            </td>
-          </tr>
-          <tr>
-            <td>William José Dias</td>
-            <td>44.055.454-55</td>
-            <td>444.858.212.55</td>
-            <td>Desenvolvedor FullStack</td>
-            <td>Casado</td>
-            <td>(19)98888-8888</td>
-            <td>
-              <MdVisibility size={20} color="#2C3E50" />
-              <MdCreate size={20} color="#2980B9" />
-              <MdDelete size={20} color="#C0392B" />
-            </td>
-          </tr>
-          <tr>
-            <td>William José Dias</td>
-            <td>44.055.454-55</td>
-            <td>444.858.212.55</td>
-            <td>Desenvolvedor FullStack</td>
-            <td>Casado</td>
-            <td>(19)98888-8888</td>
-            <td>
-              <MdVisibility size={20} color="#2C3E50" />
-              <MdCreate size={20} color="#2980B9" />
-              <MdDelete size={20} color="#C0392B" />
-            </td>
-          </tr>
-        </tbody>
+  return (
+    <Container>
+      <Header />
 
-      </TableContainer>
-    </Content>
-  </Container>
-);
+      <Content>
+        <Search>
+          <div>
+            <MdSearch size={25} color="#7F8C8D" />
+            <InputSearch placeholder="Busque pelo nome do inquilino" />
+          </div>
+          <ButtonSearch>
+            <MdAdd size={22} />
+            Novo
+          </ButtonSearch>
+        </Search>
+
+        <TableContainer>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>RG</th>
+              <th>CPF</th>
+              <th>Profissão</th>
+              <th>Estado civíl</th>
+              <th>Fone</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {tenants?.map((tenant) => (
+              <tr key={tenant.id}>
+                <td>{tenant.name}</td>
+                <td>{tenant.rg}</td>
+                <td>{tenant.cpf}</td>
+                <td>{tenant.profession}</td>
+                <td>{tenant.marital_status}</td>
+                <td>{tenant.phone1}</td>
+                <td>
+                  <MdVisibility size={20} color="#2C3E50" />
+                  <MdCreate size={20} color="#2980B9" />
+                  <MdDelete size={20} color="#C0392B" />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </TableContainer>
+      </Content>
+    </Container>
+  );
+};
 
 export default Tenants;
