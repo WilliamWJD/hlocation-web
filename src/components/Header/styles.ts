@@ -1,8 +1,8 @@
 import { shade } from 'polished';
 import styled, { css, keyframes } from 'styled-components';
 
-interface BoxProfileProps{
-  boxProfile:boolean
+interface BoxProfileProps {
+  boxProfile: boolean
 }
 
 export const Container = styled.div`
@@ -31,14 +31,16 @@ export const Content = styled.div`
     flex-direction:row;
 
     li{
-      margin-left:30px;
-      cursor:pointer;
-      font-weight:700;
-      color: #34495E;
-      transition: color 0.2s;
+          cursor:pointer;
+          margin-left:30px;
+        a{
+          font-weight:700;
+          color: #34495E;
+          transition: color 0.2s;
 
-      &:hover{
-        color:${shade(-0.4, '#34495E')};
+          &:hover{
+            color:${shade(-0.4, '#34495E')};
+          }
       }
     }
   }

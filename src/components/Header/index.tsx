@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { MdPermIdentity, MdInput } from 'react-icons/md';
 
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
 
 import imgLogo from '../../assets/logo.svg';
@@ -28,11 +29,31 @@ const Header: React.FC = () => {
         <img src={imgLogo} alt="hlocation" />
 
         <ul>
-          <li>Home</li>
-          <li>Inquilinos</li>
-          <li>Imóveis</li>
-          <li>Locações</li>
-          <li>Recibos</li>
+          <li>
+            <Link to="/">
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/tenants">
+              Inquilinos
+            </Link>
+          </li>
+          <li>
+            <Link to="/">
+              Imóveis
+            </Link>
+          </li>
+          <li>
+            <Link to="/">
+              Locações
+            </Link>
+          </li>
+          <li>
+            <Link to="/">
+              Recibos
+            </Link>
+          </li>
         </ul>
 
         <Profile onClick={handleShowBoxProfile}>
