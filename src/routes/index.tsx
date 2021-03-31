@@ -6,7 +6,8 @@ import Route from './Route';
 import SignIn from '../pages/SignIn';
 import SignOut from '../pages/SignOut';
 import Dashboard from '../pages/Dashboard';
-import Tenants from '../pages/Tenants';
+
+import Tenants from '../pages/Tenants/List';
 
 const Routes: React.FC = () => (
   <Switch>

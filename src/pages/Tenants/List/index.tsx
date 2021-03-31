@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import {
   MdSearch, MdVisibility, MdCreate, MdDelete, MdAdd,
 } from 'react-icons/md';
-import Header from '../../components/Header';
-import TableContainer from '../../components/Table/TableContainer';
-import api from '../../services/api';
+import Header from '../../../components/Header';
+import TableContainer from '../../../components/Table/TableContainer';
+import api from '../../../services/api';
 
 import {
   Container, Content, InputSearch, Search, ButtonSearch, ViewMore,
@@ -20,7 +20,7 @@ interface ITenants{
   phone1:string,
 }
 
-const Tenants: React.FC = () => {
+const ListTenant: React.FC = () => {
   const [tenants, setTenants] = useState<ITenants[]>();
 
   useEffect(() => {
@@ -92,4 +92,4 @@ const Tenants: React.FC = () => {
   );
 };
 
-export default Tenants;
+export default ListTenant;
