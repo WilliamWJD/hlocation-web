@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   MdSearch, MdVisibility, MdCreate, MdDelete, MdAdd,
 } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import Header from '../../../components/Header';
 import TableContainer from '../../../components/Table/TableContainer';
 import api from '../../../services/api';
@@ -41,10 +42,12 @@ const ListTenant: React.FC = () => {
             <MdSearch size={25} color="#7F8C8D" />
             <InputSearch placeholder="Busque pelo nome do inquilino" />
           </div>
-          <ButtonSearch>
-            <MdAdd size={22} />
-            Novo
-          </ButtonSearch>
+          <Link to="/tenants-form">
+            <ButtonSearch>
+              <MdAdd size={22} />
+              Novo
+            </ButtonSearch>
+          </Link>
         </Search>
 
         <TableContainer>

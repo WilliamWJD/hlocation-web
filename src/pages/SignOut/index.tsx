@@ -47,7 +47,7 @@ const SignOut: React.FC = () => {
 
       toast.error('Erro ao cadastrar usuário!');
     }
-  }, []);
+  }, [history]);
 
   return (
     <Container>

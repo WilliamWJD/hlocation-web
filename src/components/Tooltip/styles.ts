@@ -19,7 +19,7 @@ export const Container = styled.div`
     bottom: calc(100% + 12px);
     left:50%;
     transform:translateX(-50%);
-    color:#ecf0f1;
+    color:#ecf0f1 !important;
 
     &::before{
       content:'';
