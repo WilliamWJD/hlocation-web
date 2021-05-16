@@ -1,28 +1,52 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   MdSearch, MdVisibility, MdCreate, MdDelete, MdAdd,
 } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import api from '../../../services/api';
+
 import Header from '../../../components/Header';
 import TableContainer from '../../../components/Table/TableContainer';
-import api from '../../../services/api';
+import Modal from '../../../components/Modal';
 
 import {
   Container, Content, InputSearch, Search, ButtonSearch, ViewMore,
 } from './styles';
 
-interface ITenants{
-  id:string,
-  name:string,
-  rg:string,
-  cpf:string,
-  profession:string,
-  marital_status:string,
-  phone1:string,
+interface ITenants {
+  id: string,
+  name: string,
+  rg: string,
+  cpf: string,
+  profession: string,
+  marital_status: string,
+  phone1: string,
 }
 
 const ListTenant: React.FC = () => {
   const [tenants, setTenants] = useState<ITenants[]>();
+  const [showModal, setShowModal] = useState(false);
+  const [tenantSelected, setTenantSelected] = useState<ITenants>();
+
+  const handleOpenModalDelete = useCallback(() => {
+    setShowModal(!showModal);
+  }, [showModal]);
+
+  const handleSelectedTenantAndOpenModalDelete = useCallback((tenant) => {
+    setTenantSelected(tenant);
+    handleOpenModalDelete();
+  }, [handleOpenModalDelete]);
+
+  const handleDelete = useCallback(async () => {
+    await api.delete(`/tenants/${tenantSelected?.id}`);
+    toast.success('Inquilino excluído com sucesso..');
+    handleOpenModalDelete();
+
+    const tenantsFiltered = tenants?.filter((tenant) => tenant.id !== tenantSelected?.id);
+
+    setTenants(tenantsFiltered);
+  }, [tenantSelected?.id, handleOpenModalDelete, tenants]);
 
   useEffect(() => {
     async function loadTenants() {
@@ -34,6 +58,14 @@ const ListTenant: React.FC = () => {
 
   return (
     <Container>
+      <Modal
+        title="inquilino"
+        name={tenantSelected?.name || ''}
+        showModal={showModal}
+        handleOpenModal={handleOpenModalDelete}
+        handleDelete={handleDelete}
+      />
+
       <Header />
 
       <Content>
@@ -75,7 +107,7 @@ const ListTenant: React.FC = () => {
                 <td>
                   <MdVisibility size={20} color="#2C3E50" />
                   <MdCreate size={20} color="#2980B9" />
-                  <MdDelete size={20} color="#C0392B" />
+                  <MdDelete size={20} color="#C0392B" onClick={() => handleSelectedTenantAndOpenModalDelete(tenant)} />
                 </td>
               </tr>
             ))}
@@ -84,10 +116,16 @@ const ListTenant: React.FC = () => {
 
         <ViewMore>
           <div>
-            <MdAdd size={25} />
-            <strong>
-              Ver Mais
-            </strong>
+            {!tenants?.length ? (
+              <p>😕 Ops, nenhum inquilino cadastrado.</p>
+            ) : (
+              <>
+                <MdAdd size={25} />
+                <strong>
+                  Ver Mais
+                </strong>
+              </>
+            )}
           </div>
         </ViewMore>
       </Content>

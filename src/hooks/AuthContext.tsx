@@ -50,10 +50,10 @@ const AuthProvider:React.FC = ({ children }) => {
 
     const { token, user } = response.data;
 
-    console.log(response.data);
-
     localStorage.setItem('@hlocation:token', token);
     localStorage.setItem('@hlocation:user', JSON.stringify(user));
+
+    api.defaults.headers.authorization = `Bearer ${token}`;
 
     setData({ token, user });
   }, []);

@@ -33,7 +33,10 @@ const TenantForm: React.FC = () => {
         abortEarly: false,
       });
 
+      console.log(data);
+
       await api.post('/tenants', data);
+
       toast.success('Inquilino cadastrado com sucesso!');
       history.push('/tenants');
     } catch (err) {
